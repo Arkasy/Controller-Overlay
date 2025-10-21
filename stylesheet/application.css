@@ -1,0 +1,90 @@
+@import "./font.css";
+
+html {
+  font-family: "Nunito Sans", "system-ui", "sans-serif";
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+
+  --btn-accent: white;
+  --btn-size: 1.8rem;
+  --btn-font-size: 0.75rem;
+  --btn-border-size: 0.15rem;
+  --btn-bg: rgba(255, 255, 255, 0.1);
+  --btn-bg-active: rgba(255, 255, 255, 0.4);
+  --gap: 0.5rem;
+  --transition-duration: 125ms;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  overflow: hidden;
+  background-color: #1e1e1e;
+}
+
+#gamepad {
+  opacity: 60%;
+  padding: 15px;
+  transition: all;
+  transition-duration: var(--transition-duration);
+  
+  &:has(.active) {
+    opacity: 100%;
+  }
+}
+
+[data-gamepad-section="buttons"] {
+  width: calc(var(--btn-size) * 3.25);
+  height: calc(var(--btn-size) * 3.25);
+  position: relative;
+
+  span[data-gamepad-button] {
+    position: absolute;
+    display: grid;
+    place-content: center;
+    color: var(--btn-accent);
+    background: var(--btn-bg);
+    border-radius: 50%;
+    height: var(--btn-size);
+    width: var(--btn-size);
+    font-weight: 800;
+    font-size: var(--btn-font-size);
+    transition: all;
+    transition-duration: var(--transition-duration);
+    border: solid var(--btn-border-size) var(--btn-bg);
+    
+    &.active {
+      background: var(--btn-bg-active);
+    }
+  }
+
+  span[data-gamepad-button="Y"] {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  span[data-gamepad-button="B"] {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+  }
+  
+  span[data-gamepad-button="A"] {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  span[data-gamepad-button="X"] {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+}
+

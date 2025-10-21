@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "Nunito Sans";
+  font-optical-sizing: auto;
+  font-weight: 200 1000;
+  font-style: normal;
+  font-variation-settings: "wdth" 100, "YTLC" 500;
+  font-display: swap;
+  src: url("../fonts/Nunito_Sans/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf")
+    format("truetype");
+}
+
+@font-face {
+  font-family: "Nunito Sans";
+  font-optical-sizing: auto;
+  font-weight: 200 1000;
+  font-style: italic;
+  font-variation-settings: "wdth" 100, "YTLC" 500;
+  font-display: swap;
+  src: url("../fonts/Nunito_Sans/NunitoSans-Italic-VariableFont_YTLC,opsz,wdth,wght.ttf")
+    format("truetype");
+}

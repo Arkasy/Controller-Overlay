@@ -6,14 +6,16 @@ html {
   width: 100%;
   font-size: 16px;
 
-  --btn-accent: white;
-  --btn-size: 1.8rem;
+  --btn-accent: rgba(255, 255, 255, 0.75);
+  --btn-size: 2rem;
   --btn-font-size: 0.75rem;
-  --btn-border-size: 0.15rem;
+  --btn-border-size: 0.2rem;
+  --btn-bg-transparent: rgba(255, 255, 255, 0);
   --btn-bg: rgba(255, 255, 255, 0.1);
   --btn-bg-active: rgba(255, 255, 255, 0.4);
-  --gap: 0.5rem;
+  --gap: 1rem;
   --transition-duration: 125ms;
+  --btn-shadow: rgba(0, 0, 0, 0.25);
 }
 
 body {
@@ -25,23 +27,48 @@ body {
   justify-content: end;
   overflow: hidden;
   background-color: #1e1e1e;
+  
+  * {
+    box-sizing: border-box;
+  }
 }
 
 #gamepad {
-  opacity: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 15px;
-  transition: all;
+  gap: calc(var(--gap) * 0.5);
+}
+
+[data-gamepad-front] {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+
+[data-gamepad-back] {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+
+[data-gamepad-section] {
+  opacity: 25%;
+  transition: opacity;
   transition-duration: var(--transition-duration);
+  position: relative;
+  transition-delay: 1000ms;
   
   &:has(.active) {
     opacity: 100%;
+    transition-delay: 0ms;
   }
 }
 
 [data-gamepad-section="buttons"] {
-  width: calc(var(--btn-size) * 3.25);
-  height: calc(var(--btn-size) * 3.25);
-  position: relative;
+  width: calc(var(--btn-size) * 2.7);
+  height: calc(var(--btn-size) * 2.7);
 
   span[data-gamepad-button] {
     position: absolute;
@@ -57,6 +84,7 @@ body {
     transition: all;
     transition-duration: var(--transition-duration);
     border: solid var(--btn-border-size) var(--btn-bg);
+    box-shadow: 0 0 0.25rem var(--btn-shadow);
     
     &.active {
       background: var(--btn-bg-active);
@@ -88,3 +116,173 @@ body {
   }
 }
 
+[data-gamepad-section="stick"] {
+  position: relative;
+  width: calc(var(--btn-size) * 1.75);
+  height: calc(var(--btn-size) * 1.75);
+  border-radius: 50%;
+  background: var(--btn-bg);
+  box-shadow: 0 0 0.25rem var(--btn-shadow);
+  
+  &:after {
+    content: "";
+    border-radius: 50%;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(var(--btn-bg), var(--btn-bg-active) 100%);
+    opacity: 0;
+    transition: opacity;
+    transition-duration: var(--transition-duration);
+  }
+
+  &:has(span[data-gamepad-stick].active):after {
+    opacity: 0.5;
+  }
+  
+  span[data-gamepad-stick] {
+    top: 50%;
+    left: 50%;
+    transform: translate(var(--x, -50%), var(--y, -50%));
+    position: absolute;
+    width: var(--btn-size);
+    height: var(--btn-size);
+    border: solid var(--btn-border-size) var(--btn-bg);
+    border-radius: 50%;
+    background: var(--btn-bg);
+    box-shadow: 0 0 0.25rem var(--btn-shadow);
+  }
+
+  span[data-gamepad-button] {
+    position: absolute;
+    inset: calc(-1 * var(--btn-border-size));
+    border-radius: 50%;
+    background: var(--btn-bg-transparent);
+    transition: all;
+    transition-duration: var(--transition-duration);
+    
+    &.active {
+      background: var(--btn-bg-active);
+    }
+  }
+}
+
+[data-gamepad-section="directions"] {
+  width: calc(var(--btn-size) * 2.25);
+  height: calc(var(--btn-size) * 2.25);
+
+  span[data-gamepad-button] {
+    position: absolute;
+    display: grid;
+    place-content: center;
+    color: var(--btn-accent);
+    background: var(--btn-bg);
+    height: var(--btn-size);
+    width: calc(var(--btn-size) * 0.7);
+    font-weight: 800;
+    font-size: var(--btn-font-size);
+    transition: all;
+    transition-duration: var(--transition-duration);
+    box-shadow: 0 0 0.25rem var(--btn-shadow);
+    
+    &.active {
+      background: var(--btn-bg-active);
+    }
+  }
+  
+  span[data-gamepad-button="DPadUp"] {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(50% - var(--btn-size) * 0.3667);
+    width: calc(var(--btn-size) * 0.75);
+    border: solid 1px;
+    border-radius: 6px 6px 0 0;
+    border: solid var(--btn-border-size) var(--btn-bg);
+    border-bottom: 0;
+  }
+  
+  span[data-gamepad-button="DPadRight"] {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    height: calc(var(--btn-size) * 0.75);
+    width: calc(50% - var(--btn-size) * 0.3667);
+    border-radius: 0 6px 6px 0;
+    border: solid var(--btn-border-size) var(--btn-bg);
+    border-left: 0;
+  }
+  
+  span[data-gamepad-button="DPadDown"] {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(50% - var(--btn-size) * 0.3667);
+    width: calc(var(--btn-size) * 0.75);
+    border-radius: 0 0 6px 6px;
+    border: solid var(--btn-border-size) var(--btn-bg);
+    border-top: 0;
+  }
+  
+  span[data-gamepad-button="DPadLeft"] {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: calc(var(--btn-size) * 0.75);
+    width: calc(50% - var(--btn-size) * 0.3667);
+    border-radius: 6px 0 0 6px;
+    border: solid var(--btn-border-size) var(--btn-bg);
+    border-right: 0;
+  }
+}
+
+[data-gamepad-section="trigger"] {
+  display: flex;
+  gap: calc(var(--gap) * 0.2);
+  height: var(--btn-size);
+
+  span[data-gamepad-button] {
+    height: var(--btn-size);
+    display: grid;
+    place-content: center;
+    color: var(--btn-accent);
+    background: var(--btn-bg);
+    font-weight: 800;
+    font-size: var(--btn-font-size);
+    transition: all;
+    transition-duration: var(--transition-duration);
+    border: solid var(--btn-border-size) var(--btn-bg);
+    box-shadow: 0 0 0.25rem var(--btn-shadow);
+
+    &.active {
+      background: var(--btn-bg-active);
+    }
+  }
+  
+  span[data-gamepad-button="LT"] {
+    width: calc(var(--btn-size) * 1.75);
+    border-radius: 18px 6px 6px 6px;
+    border: solid var(--btn-border-size) var(--btn-bg);
+  }
+  
+  span[data-gamepad-button="LB"] {
+    height: var(--btn-size);
+    width: calc(var(--btn-size) * 1.25);
+    border-radius: 6px 18px 6px 6px;
+    border: solid var(--btn-border-size) var(--btn-bg);
+  }
+  
+  span[data-gamepad-button="RB"] {
+    height: var(--btn-size);
+    width: calc(var(--btn-size) * 1.25);
+    border-radius: 18px 6px 6px 6px;
+    border: solid var(--btn-border-size) var(--btn-bg);
+  }
+  
+  span[data-gamepad-button="RT"] {
+    width: calc(var(--btn-size) * 1.75);
+    border-radius: 6px 18px 6px 6px;
+    border: solid var(--btn-border-size) var(--btn-bg);
+  }
+  
+
+}

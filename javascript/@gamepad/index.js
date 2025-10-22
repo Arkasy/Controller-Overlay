@@ -7,11 +7,11 @@ class Gamepad {
   static stickDeadzone = 0.1
 
   static _buttons = {}
-  static _axes = {}
+  static _sticks = {}
 
   constructor() {
     Gamepad.buttons = {}
-    Gamepad.axes = {}
+    Gamepad.sticks = {}
 
     window.addEventListener("gamepadconnected", this.connect)
     window.addEventListener("ongamepaddisconnected", this.disconnect)
@@ -20,8 +20,8 @@ class Gamepad {
   static get buttons() { return Gamepad._buttons }
   static set buttons(value) { Gamepad._buttons = new Proxy(value || {}, Gamepad.buttonsHandler) }
 
-  static get axes() { return Gamepad._axes }
-  static set axes(value) { Gamepad._axes = new Proxy(value || {}, Gamepad.axesHandler) }
+  static get sticks() { return Gamepad._sticks }
+  static set sticks(value) { Gamepad._sticks = new Proxy(value || {}, Gamepad.sticksHandler) }
 
   connect = (event) => {
     Gamepad.instance = navigator.getGamepads()[event.gamepad.index]
@@ -35,7 +35,7 @@ class Gamepad {
 
   awake = () => {
     this.resetButtons()
-    this.resetAxes()
+    this.resetSticks()
     this.update()
   }
 
@@ -49,7 +49,7 @@ class Gamepad {
 
     Gamepad.instance.axes.forEach((value, index) => {
       if (Math.abs(value) < Gamepad.stickDeadzone) value = 0
-      Gamepad.axes[Gamepad.mapping[Gamepad.instance.mapping]["axes"][index]] = value
+      Gamepad.sticks[Gamepad.mapping[Gamepad.instance.mapping]["sticks"][index]] = value
     })
 
     Gamepad.engine = requestAnimationFrame(this.update)
@@ -64,8 +64,8 @@ class Gamepad {
     Object.values(Gamepad.mapping[Gamepad.instance.mapping].buttons).forEach((name) => { Gamepad.buttons[name] = false })
   }
 
-  resetAxes = () => {
-    Object.values(Gamepad.mapping[Gamepad.instance.mapping].axes).forEach((name) => { Gamepad.axes[name] = 0 })
+  resetSticks = () => {
+    Object.values(Gamepad.mapping[Gamepad.instance.mapping].sticks).forEach((name) => { Gamepad.sticks[name] = 0 })
   }
 
   static buttonsHandler = {
@@ -78,7 +78,7 @@ class Gamepad {
         const event = new CustomEvent("gamepad:update", {
           detail: {
             buttons: { ...Gamepad.buttons },
-            axes: { ...Gamepad.axes }
+            sticks: { ...Gamepad.sticks }
           }
         })
         window.dispatchEvent(event)
@@ -88,7 +88,7 @@ class Gamepad {
     }
   }
 
-  static axesHandler = {
+  static sticksHandler = {
     set: (obj, prop, value) => {
       const oldValue = obj[prop]
       if (oldValue === 0 && oldValue === value) return true
@@ -98,7 +98,7 @@ class Gamepad {
         const event = new CustomEvent("gamepad:update", {
           detail: {
             buttons: { ...Gamepad.buttons },
-            axes: { ...Gamepad.axes }
+            sticks: { ...Gamepad.sticks }
           }
         })
         window.dispatchEvent(event)

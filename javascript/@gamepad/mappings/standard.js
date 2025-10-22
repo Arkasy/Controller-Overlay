@@ -18,7 +18,7 @@ export default {
     15: "DPadRight",
     16: "Home"
   },
-  axes: {
+  sticks: {
     0: "LStickX",
     1: "LStickY",
     2: "RStickX",

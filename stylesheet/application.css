@@ -6,13 +6,13 @@ html {
   width: 100%;
   font-size: 16px;
 
-  --btn-accent: rgba(255, 255, 255, 0.5);
+  --btn-accent: rgba(255, 255, 255, 0.6);
   --btn-size: 2rem;
   --btn-font-size: 0.75rem;
   --btn-border-size: 0.2rem;
   --btn-bg-transparent: rgba(255, 255, 255, 0);
   --btn-bg: rgba(255, 255, 255, 0.1);
-  --btn-bg-active: rgba(255, 255, 255, 0.25);
+  --btn-bg-active: rgba(255, 255, 255, 0.4);
   --gap: 1rem;
   --transition-duration: 125ms;
   --btn-shadow: rgba(0, 0, 0, 0.25);
@@ -26,7 +26,7 @@ body {
   align-items: end;
   justify-content: end;
   overflow: hidden;
-  background-color: transparent;
+  background-color: #252526;
   
   * {
     box-sizing: border-box;
@@ -231,12 +231,12 @@ body {
 span[data-gamepad-button] {
   background: var(--btn-bg);
   opacity: 25%;
-  transition: opacity 500ms linear, background 20ms linear;
+  transition: opacity 500ms linear, background 50ms linear;
   
   &.active {
     background: var(--btn-bg-active);
     opacity: 100%;
-    transition: opacity 20ms linear
+    transition: opacity 50ms linear
   }
 }
 
@@ -244,10 +244,10 @@ span[data-gamepad-button] {
 span[data-gamepad-stick] {
   background: var(--btn-bg);
   opacity: 25%;
-  transition: opacity 500ms linear, background 20ms linear;
+  transition: opacity 500ms linear, background 50ms linear;
   
   &.active, &:has(.active) {
     opacity: 100%;
-    transition: opacity 20ms linear
+    transition: opacity 50ms linear
   }
 }
